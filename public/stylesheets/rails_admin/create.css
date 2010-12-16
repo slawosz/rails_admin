@@ -350,3 +350,7 @@ input.default:active{
   top:4px;
   right:2px;
 }
+
+#facebox .content {
+    width: 800px;
+}
