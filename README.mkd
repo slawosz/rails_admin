@@ -2,22 +2,32 @@ RailsAdmin
 ==========
 RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data.
 
-RailsAdmin was conceived as a port of [MerbAdmin](http://github.com/sferik/merb-admin) to
-Rails 3 and implemented as a [Ruby Summer of Code project](http://www.rubysoc.org/projects)
+RailsAdmin started as a port of [MerbAdmin](http://github.com/sferik/merb-admin) to Rails 3
+and was implemented as a [Ruby Summer of Code project](http://www.rubysoc.org/projects)
 by [Bogdan Gaza](http://github.com/hurrycane) with mentors [Erik Michaels-Ober](http://github.com/sferik),
 [Yehuda Katz](http://github.com/wycats), [Rodrigo Rosenfeld Rosas](http://github.com/rosenfeld),
 [Luke van der Hoeven](http://github.com/plukevdh), and [Rein Henrichs](http://github.com/reinh).
 
-It currently offers the following functionality:
+It currently offers the following features:
 
-* Show database tables
-* Easily update data
+* Display database tables
 * Create new data
+* Easily update data
 * Safely delete data
 * Automatic form validation
 * Search
 * Authentication (via [Devise](http://github.com/plataformatec/devise))
 * User action history
+
+Bugmash
+-------
+Join us for an upcoming [Bugmash](https://github.com/sferik/rails_admin/wiki/bugmash) event on
+Saturday, December 18, starting at [8 AM Pacific time](http://everytimezone.com/) in
+[#railsadmin on irc.freenode.net](http://webchat.freenode.net/?channels=railsadmin). See you there!
+
+Mailing List
+------------
+Questions about RailsAdmin can be asked on the [official RailsAdmin mailing list](http://groups.google.com/group/rails_admin).
 
 Screenshots
 -----------
@@ -138,6 +148,10 @@ Both also accept a block:
         end
       end
     end
+
+*NOTE* - The hide_from_navigation method was originally implemented as
+ hide_in_navigation but that name is now deprecated - you should
+ change your code to use hide_from_navigation.
 
 If you need to customize the label of the model within the navigation tab, use:
 
@@ -322,9 +336,8 @@ can customize this by:
       end
     end
 
-This would render the "created at" field's header column with a CSS class named
-"customClassHeader" and each "created at" value with a class named
-"customClassRow".
+This would render the "created at" field's header and body columns with a CSS class named
+"customClass".
 
 By default columns' widths are calculated from certain pre-defined,
 data-type-specific pixel values. If you want to ensure a minimum width for a
@@ -435,6 +448,54 @@ field's input element.
 Naturally edit views' fields also have the visible option along with
 hide and show accessors as the list view has.
 
+### Mass Assignment Operations ###
+
+* Mass assign for every model configuration
+* Mass assign for every section (create, list, navigation and update)
+* Mass assign by field type
+
+Mass assignment operations are used to pass in configuration blocks for multiple targets at once. For instance, the code below configures every models' label displayed uppercased in the list view.
+
+    RailsAdmin.config do |config|
+      config.models do
+        list do
+          label do
+            label.upcase # in this context label refers to default label method
+          end
+        end
+      end
+    end
+
+If one would like to assign that same behavior for all the different views in RailsAdmin (create, list, navigation and update) one could pass the label definition one level higher:
+
+    RailsAdmin.config do |config|
+      config.models do
+        label do
+          label.upcase
+        end
+      end
+    end
+
+Naturally this also works for a single model configuration:
+
+    RailsAdmin.config do |config|
+      config.model Team do
+        label do
+          label.upcase
+        end
+      end
+    end
+
+One can also assign configurations for all fields by type. For instance modifying the date presentation of all datetime fields in all sections can be accomplished like this:
+
+    RailsAdmin.config do |config|
+      config.models do
+        fields_of_type :datetime do
+          strftime_format "%Y-%m-%d"
+        end
+      end
+    end
+
 Authorization
 -------------
 
@@ -452,7 +513,7 @@ You can hook declarative_authorization into Rails Admin using code
 like this in an initializer (e.g., config/initializers/rails_admin.rb):
 
     require "rails_admin/application_controller"
-    
+
     module RailsAdmin
       class ApplicationController < ::ApplicationController
         filter_access_to :all
@@ -482,6 +543,7 @@ Here are some ways *you* can contribute:
 * by using alpha, beta, and prerelease versions
 * by reporting bugs
 * by suggesting new features
+* by [translating to a new language](https://github.com/sferik/rails_admin/tree/master/config/locales)
 * by writing or editing documentation
 * by writing specifications
 * by writing code (**no patch is too small**: fix typos, add comments, clean up inconsistent whitespace)
@@ -502,7 +564,7 @@ Submitting a Pull Request
 -------------------------
 1. Fork the project.
 2. Create a topic branch.
-3. Implement your feature or bug fix.
+3. Implement your feature or bug fix.  *NOTE* - there's a small test app located in the spec/dummy_app directory that you can use to experiment with rails_admin.
 4. Add documentation for your feature or bug fix.
 5. Run `bundle exec rake doc:yard`. If your changes are not 100% documented, go back to step 4.
 6. Add specs for your feature or bug fix.
@@ -513,18 +575,3 @@ Submitting a Pull Request
 Contact
 -------
 If you have questions about contributing to RailsAdmin, please contact [Erik Michaels-Ober](http://github.com/sferik) and [Bogdan Gaza](http://github.com/hurrycane).
-
-Credits
--------
-Many thanks to:
-
-* Everyone in the [Ruby Summer of Code](http://www.rubysoc.org) class of 2010
-* [Piotr Sarnacki](http://github.com/drogus) for [making RailsAdmin mountable](http://github.com/drogus/rails_admin/commit/3349b36db2d4eda296aad96f03b7e7a6a544bcd8)
-* [Daniel Neighman](http://github.com/hassox) for [generalizing authentication](http://github.com/sferik/rails_admin/commits/master?author=hassox)
-* [Jack Dempsey](http://github.com/jackdempsey) for [adding support for HABTM associations](http://github.com/sferik/rails_admin/commits/master?author=jackdempsey)
-* [Petteri Kääpä](http://github.com/kaapa) for [writing the configuration DSL](http://github.com/sferik/rails_admin/commits/master?author=kaapa)
-* [Cameron Priest](http://github.com/cameronpriest) for [removing an unused file](http://github.com/sferik/rails_admin/commits/master?author=cameronpriest)
-* [Christian Hølmer](http://github.com/hoelmer) for [a few random commits](http://github.com/sferik/rails_admin/commits/master?author=hoelmer)
-* [Caio Tarifa](http://github.com/caiotarifa) for [a new header design](http://github.com/sferik/rails_admin/commits/master?author=caiotarifa)
-* [Toby Cabot](http://github.com/ccabot) for [various history fixes](http://github.com/sferik/rails_admin/commits/master?author=ccabbot)
-* and everyone who contributed to [MerbAdmin](http://github.com/sferik/merb-admin).

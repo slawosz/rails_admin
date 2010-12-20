@@ -1,137 +1,57 @@
+.grid {
+  width: 100%;
+  border-collapse:collapse;
+}
 
-#moduleHeader{
-  border-top:1px solid #b9b9b9;
+.grid thead th {
   border-bottom:2px solid #b9b9b9;
-  list-style-type:none;
-  height:22px;
+  padding: 9px;
+  text-align:center;
 }
 
-#moduleHeader li{
-  padding-top:4px;
-  padding-bottom:4px;
-  float:left;
-
-}
-
-#moduleHeader li a {
+.grid thead th a {
+  padding-right: 20px;
+  position: relative;
+  left: 10px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: right;
   text-decoration:none;
-  font-size:10px;
   color:#000;
 }
 
-.idHeader{
-  width:46px;
-  text-align:center;
+.grid thead th a.ascending {
+  background-image: url(/images/rails_admin/bullet_arrow_up.png);
 }
 
-.idRow{
-  width:46px;
-  text-align:center;
+.grid thead th a.descending {
+  background-image: url(/images/rails_admin/bullet_arrow_down.png);
 }
 
-.boolRow{
-  width:50px;
+.grid tbody .bool {
   margin-bottom:-5px;
-  text-align:center;
 }
 
-.boolHeader{
-  width:50px;
-  text-align:center;
+.grid tbody .date {
+  white-space: nowrap;
 }
-
-.dateHeader{
-  text-align:center;
-  width:90px;
-}
-.dateRow{
-  text-align:center;
-  width:90px;
-}
-.timeHeader{
+.grid thead .time {
   background:#F99;
-  text-align:center;
-  width:60px
 }
-.timeRow{
-  text-align:center;
-  width:60px
+.grid tbody .time {
+  white-space: nowrap;
 }
-.dateTimeHeader{
-  text-align:center;
-  width:170px
+.grid tbody .dateTime {
+  white-space: nowrap;
 }
-.dateTimeRow{
-  text-align:center;
-  width:170px
-}
-.smallStringHeader{
-  text-align:center;
-  width:180px
-}
-.smallStringRow{
-  text-align:center;
-  width:180px;
-}
-
-.bigStringHeader{
-  text-align:center;
-  width:240px
-
-}
-.bigStringRow{
-  text-align:center;
-  width:240px
-}
-
-.textHeader{
-  text-align:center;
-  width:240px
-}
-.textRow{
-  text-align:center;
-  width:240px
-}
-.intHeader{
-  text-align:center;
-  width:80px
-}
-.intRow{
-  text-align:center;
-  width:80px
-
-}
-.bigDecimalHeader{
+.grid thead .bigDecimal {
   background:#CC6;
-  text-align:center;
-  width:110px
-
 }
-.bigDecimalRow{
-  text-align:center;
-  width:110px
-
-}
-.floatHeader{
-  text-align:center;
-  width:110px
-}
-.floatRow{
-  text-align:center;
-  width:110px
-}
-
-.otherHeader{
+.grid thead .other {
   width:40px;
-  text-align:center;
 }
 
-.otherRow{
-  width:40px;
-  text-align:center;
-}
-
-.otherRow a{
+.grid tbody .other a {
   padding-left:2px;
   padding-right:2px;
   text-decoration:none;
@@ -140,94 +60,69 @@
   color:#494949;
 }
 
-.otherRow a:hover{
+.grid tbody .other a:hover {
   border:1px solid #494949;
 }
 
-.actionRow{
-  width:80px;
-  text-align:center;
-}
-
-.actionRow a{
+.grid tbody .action a {
   text-decoration:none;
   font-weight:bold;
-  /* 6C9 */
 }
 
-.actionRow a:hover{
+.grid tbody .action a:hover {
   text-decoration:underline;
 }
 
-.editAction a{
+.grid .action.edit a {
   color:#5182ab;
 }
 
-.deleteAction a{
+.grid .action.delete a {
   color:#ad0208;
 }
 
-.actionHeader{
+.grid thead .action {
   width:80px;
-  text-align:center;
   font-size:10px;
   margin-top:1px;
 }
 
-.columnSelected{
+.grid thead .selected {
   font-weight:bold;
 }
 
-ul.infoRow{
+.grid tbody td {
   border-bottom:1px solid #b9b9b9;
-  list-style-type:none;
-  height:31px;
+  padding: 9px;
+  text-align:center;
 }
 
-ul.infoRow li{
-  float:left;
-  padding-top:9px;
-  padding-bottom:9px;
-  font-size:11px;
-}
-
-.boldRow{
-  font-weight:bold;
-}
-
-.greyRow{
+.grid tbody .even {
   background:#f2f2f2;
 }
 
-.searchBox{
+.searchBox {
   padding:5px;
   height:23px;
   background:#e0ecfc;
   border-top:1px solid #B9B9B9;
-}
-
-.quickInsert{
   border-bottom:1px solid #B9B9B9;
-  background:#f4e8d9;
-  height:23px;
 }
 
-.searchBox fieldset{
+.searchBox fieldset {
   border:none;
 }
 
-#searchBar{
+#searchBar {
   border:1px solid #cbcbcb;
-  font-family:Verdana, Geneva, sans-serif;
   font-size:12px;
   padding:4px;
   float:left;
   width:300px;
 }
 
-.searchBox span{
+.searchBox span {
   float:left;
-
   display:block;
   font-size:10px;
   border:1px solid #cbcbcb;
@@ -236,70 +131,50 @@ ul.infoRow li{
   padding-left:6px;
   padding-right:6px;
   margin-left:5px;
-
 }
 
-#searchBtn{
-
-  background:none;
-  border:none;
-  font-family:Verdana, Geneva, sans-serif;
-  font-size:10px;
-  background:#FFF;
-  border:1px solid #cbcbcb;
-  padding:4px;
-  padding-left:6px;
-  padding-right:6px;
-  margin-left:5px;
-}
-
-#moduleHeader li a img{
-  margin-bottom:-4px;
-  border:none;
-}
-
-#pagination{
+#pagination {
   clear:both;
   text-align:center;
   margin-bottom:15px;
   padding-top:10px;
 }
 
-#pagination a{
+#pagination a {
   background:#FFF;
   color:#000;
   border:1px solid #DDD;
   padding:6px;
   padding-top:3px;
-  padding-bottom:3px;
+  padding-bottom:4px;
   text-decoration:none;
 }
 
-#pagination a:hover{
+#pagination a:hover {
   background:#EEE;
   border:1px solid #494949;
 }
 
-#searchbar_btn{
+#searchbar_btn {
   background:#DDD;
   border:1px solid #CBCBCB;
-  font-family:Verdana,Geneva,sans-serif;
   font-size:10px;
-  padding:5px;
+  padding-top:3px;
+  padding-bottom:4px;
   padding-left:6px;
   padding-right:6px;
   margin-left:3px;
 }
 
-.this-page{
+.this-page {
   padding:3px;
 }
 
-.historyLink{
+.historyLink {
   color:#000;
   text-decoration:none;
 }
 
-.historyLink:hover{
+.historyLink:hover {
   text-decoration:underline;
 }

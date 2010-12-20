@@ -5,6 +5,7 @@
   <meta name="robots" content="NONE,NOARCHIVE" />
   <title><%= @page_name %> | <%= @plugin_name %></title>
   <%= stylesheet_link_tag('rails_admin/base') %>
+  <%= stylesheet_link_tag('rails_admin/list') %>
   <%= stylesheet_link_tag('rails_admin/dashboard') %>
 
   <%= javascript_include_tag('rails_admin/prototype.js') %>
@@ -13,7 +14,7 @@
 
 </head>
 <body>
-  <div id="wraper">
+  <div id="wrapper">
     <div id="header">
       <div id="headerLeft">
         <ul class="breadcrumb">
@@ -35,7 +36,7 @@
 <%= render(:partial => 'rails_admin/main/navigation') %>
 
       <div id="headerRight">
-<%= render(:partial => 'rails_admin/main/user_info', :locals => {:current_user => current_user}) %>
+<%= render(:partial => 'rails_admin/main/user_info', :locals => {:current_user => _current_user}) %>
       </div>
     </div>
 
