@@ -491,6 +491,24 @@ One can also assign configurations for all fields by type. For instance modifyin
       end
     end
 
+### Form input customization ###
+
+For some attributes you may want to have another field input than default.
+For example, you can change text_field with select_box, which has
+3 possible values:
+
+    RailsAdmin.config do |config|
+      config.model Player do
+        customize do
+          attribute(:position).field(RailsAdmin::Inputs::SelectBox.new(['defendor','attacker']))
+        end
+      end
+    end
+
+The code below will generate select_box with two possible anwsers: 'below 25 years'
+and 'more than 25 years'.
+
+
 Authorization
 -------------
 
