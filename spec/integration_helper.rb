@@ -1,10 +1,8 @@
 require 'spec_helper'
-
 require 'capybara/rails'
 require 'capybara/dsl'
 
 RSpec.configure do |config|
-  config.include(Capybara)
   config.include(Rails.application.routes.url_helpers)
   Capybara.default_driver = :selenium
   I18n.locale = :en

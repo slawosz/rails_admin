@@ -27,19 +27,13 @@ ActiveRecord::Migrator.migrate File.expand_path('../dummy_app/db/migrate/', __FI
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each{|f| require f}
 
-Webrat.configure do |config|
-  config.mode = :rails
-end
-
 RSpec.configure do |config|
   # Remove this line if you don't want RSpec's should and should_not
   # methods or matchers
   require 'rspec/expectations'
 
   config.include RSpec::Matchers
-  config.include Webrat::Matchers
-  config.include Webrat::HaveTagMatcher
-
+  config.include(Capybara)
   # == Mock Framework
   config.mock_with :rspec
 

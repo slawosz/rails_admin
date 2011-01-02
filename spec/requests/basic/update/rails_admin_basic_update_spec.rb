@@ -5,32 +5,30 @@ describe "RailsAdmin Basic Update" do
   describe "update with errors" do
     before(:each) do
       @player = RailsAdmin::AbstractModel.new("Player").create(:team_id => rand(99999), :number => 1, :name => "Player 1")
-      get rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      visit rails_admin_edit_path(:model_name => "player", :id => @player.id)
     end
 
     it "should return to edit page" do
-      fill_in "player[name]", :with => ""
-      res = click_button "Save"
-      res.should be_successful
-      res.should have_tag "form[action*=update]"
+      fill_in "Name", :with => ""
+      click_button "Save"
+ 
+      page.should have_css "form[action*=update]"
     end
   end
 
   describe "update and add another" do
     before(:each) do
       @player = RailsAdmin::AbstractModel.new("Player").create(:team_id => rand(99999), :number => 1, :name => "Player 1")
-      get rails_admin_edit_path(:model_name => "player", :id => @player.id)
-      fill_in "player[name]", :with => "Jackie Robinson"
-      fill_in "player[number]", :with => "42"
-      fill_in "player[position]", :with => "Second baseman"
+      visit rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      
+      fill_in "Name", :with => "Jackie Robinson"
+      fill_in "Number", :with => "42"
+      fill_in "Position", :with => "Second baseman"
       check "player[suspended]"
 
-      @req = click_button "Save"
+      click_button "Save"
+      
       @player = RailsAdmin::AbstractModel.new("Player").first
-    end
-
-    it "should be successful" do
-      @req.should be_successful
     end
 
     it "should update an object with correct attributes" do
@@ -44,19 +42,15 @@ describe "RailsAdmin Basic Update" do
   describe "update and edit" do
     before(:each) do
       @player = RailsAdmin::AbstractModel.new("Player").create(:team_id => rand(99999), :number => 1, :name => "Player 1")
-      get rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      visit rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      
+      fill_in "Name", :with => "Jackie Robinson"
+      fill_in "Number", :with => "42"
+      fill_in "Position", :with => "Second baseman"
+      check "Suspended"
 
-      fill_in "player[name]", :with => "Jackie Robinson"
-      fill_in "player[number]", :with => "42"
-      fill_in "player[position]", :with => "Second baseman"
-      check "player[suspended]"
-
-      @req = click_button "Save and edit"
+      click_button "Save and edit"
       @player = RailsAdmin::AbstractModel.new("Player").first
-    end
-
-    it "should be successful" do
-      @req.should be_successful
     end
 
     it "should update an object with correct attributes" do
@@ -72,17 +66,17 @@ describe "RailsAdmin Basic Update" do
       @player = RailsAdmin::AbstractModel.new("Player").create(:team_id => rand(99999), :number => 1, :name => "Player 1")
       @draft = RailsAdmin::AbstractModel.new("Draft").create(:player_id => rand(99999), :team_id => rand(99999), :date => Date.today, :round => rand(50), :pick => rand(30), :overall => rand(1500))
 
-      get rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      visit rails_admin_edit_path(:model_name => "player", :id => @player.id)
 
-      fill_in "player[name]", :with => "Jackie Robinson"
-      fill_in "player[number]", :with => "42"
-      fill_in "player[position]", :with => "Second baseman"
+      fill_in "Name", :with => "Jackie Robinson"
+      fill_in "Number", :with => "42"
+      fill_in "Position", :with => "Second baseman"
 
       select "Draft ##{@draft.id}"
 
-      @req = click_button "Save"
+      click_button "Save"
+      
       @player = RailsAdmin::AbstractModel.new("Player").first
-      # @response = rails_admin_update, :model_name => "player", :id => @player.id), :put, :params => {:player => {:name => "Jackie Robinson", :number => 42, :team_id => 1, :position => "Second baseman"}, :associations => {:draft => @draft.id}})
     end
 
     it "should update an object with correct attributes" do
@@ -106,13 +100,9 @@ describe "RailsAdmin Basic Update" do
         @teams << RailsAdmin::AbstractModel.new("Team").create(:league_id => rand(99999), :division_id => rand(99999), :name => "Team #{number}", :manager => "Manager #{number}", :founded => 1869 + rand(130), :wins => (wins = rand(163)), :losses => 162 - wins, :win_percentage => ("%.3f" % (wins.to_f / 162)).to_f)
       end
 
-      get rails_admin_edit_path(:model_name => "league", :id => @league.id)
+      team = @teams[0].id.to_s.to_i
+      put(rails_admin_update_path(:model_name => "league", :id => @league.id),{:league => { :name => 'National League'}, :associations =>  { :teams =>  [team] } })
 
-      fill_in "league[name]", :with => "National League"
-
-      set_hidden_field "associations[teams][]", :to => @teams[0].id.to_s.to_i
-
-      response = click_button "Save"
       @league = RailsAdmin::AbstractModel.new("League").first
     end
 
@@ -140,9 +130,8 @@ describe "RailsAdmin Basic Update" do
       @fan = RailsAdmin::AbstractModel.new("Fan").create(:name => "Fan 1")
       @fan.teams << @teams[0]
 
-      get rails_admin_edit_path(:model_name => "fan", :id => @fan.id)
-      set_hidden_field "associations[teams][]", :to => @teams[1].id.to_s.to_i
-      response = click_button "Save"
+      team = @teams[1].id.to_s.to_i
+      put(rails_admin_update_path(:model_name => "fan", :id => @fan.id),{:associations =>  { :teams =>  [team] } })
     end
 
     it "should update an object with correct associations" do
@@ -157,28 +146,30 @@ describe "RailsAdmin Basic Update" do
 
   describe "update with missing object" do
     before(:each) do
-      @response = visit(rails_admin_update_path(:model_name => "player", :id => 1), :put, {:player => {:name => "Jackie Robinson", :number => 42, :position => "Second baseman"}})
+      @status = put(rails_admin_update_path(:model_name => "player", :id => 1),
+                      {:player => {:name => "Jackie Robinson", :number => 42, :position => "Second baseman"}}
+                     )
     end
 
     it "should raise NotFound" do
-      @response.status.should equal(404)
+      @status.should equal(404)
     end
   end
 
   describe "update with invalid object" do
     before(:each) do
       @player = RailsAdmin::AbstractModel.new("Player").create(:team_id => rand(99999), :number => 1, :name => "Player 1")
-      get rails_admin_edit_path(:model_name => "player", :id => @player.id)
+      visit rails_admin_edit_path(:model_name => "player", :id => @player.id)
 
-      fill_in "player[name]", :with => "Jackie Robinson"
-      fill_in "player[number]", :with => "a"
-      fill_in "player[position]", :with => "Second baseman"
-      @req = click_button "Save"
+      fill_in "Name", :with => "Jackie Robinson"
+      fill_in "Number", :with => "a"
+      fill_in "Position", :with => "Second baseman"
+      click_button "Save"
       @player = RailsAdmin::AbstractModel.new("Player").first
     end
 
     it "should show an error message" do
-      @req.body.should contain("Player failed to be updated")
+      page.should have_content("Player failed to be updated")
     end
   end
 end
