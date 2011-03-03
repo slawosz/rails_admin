@@ -38,6 +38,7 @@ module RailsAdmin
             if f.serial? || @@default_hidden_fields.include?(f.name)
               f.hide
             end
+            p @groups.count
           end
         end
       end

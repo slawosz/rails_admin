@@ -23,6 +23,12 @@ module RailsAdmin
         include RailsAdmin::Config::Hideable
 
         def initialize(parent, name, properties)
+          p parent.class
+          p parent
+          p name.class
+          p name
+          p properties.class
+          p properties
           super(parent)
 
           @defined = false
